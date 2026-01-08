@@ -5,7 +5,9 @@
       "Skill(speckit.specify:*)",
       "Bash(git fetch:*)",
       "Bash(ls:*)",
-      "Bash(.specify/scripts/bash/create-new-feature.sh:*)"
+      "Bash(.specify/scripts/bash/create-new-feature.sh:*)",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)"
     ]
   }
 }

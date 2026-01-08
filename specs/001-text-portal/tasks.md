@@ -19,11 +19,11 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create project directory structure per plan.md layout
-- [ ] T002 Initialize Node.js project with package.json (TypeScript 5.x, Node 20 LTS)
-- [ ] T003 [P] Install dependencies: hono, qrcode, @types/node, typescript, vitest
-- [ ] T004 [P] Configure tsconfig.json for TypeScript compilation
-- [ ] T005 [P] Create shared types in src/shared/types.ts (TextEntry, CreateEntryRequest, CreateEntryResponse, etc.)
+- [x] T001 Create project directory structure per plan.md layout
+- [x] T002 Initialize Node.js project with package.json (TypeScript 5.x, Node 20 LTS)
+- [x] T003 [P] Install dependencies: hono, qrcode, @types/node, typescript, vitest
+- [x] T004 [P] Configure tsconfig.json for TypeScript compilation
+- [x] T005 [P] Create shared types in src/shared/types.ts (TextEntry, CreateEntryRequest, CreateEntryResponse, etc.)
 
 ---
 
@@ -33,14 +33,14 @@
 
 **CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T006 Implement encryption service in src/server/services/crypto.ts (AES-256-GCM encrypt/decrypt)
-- [ ] T007 [P] Implement 6-digit code generator in src/server/services/code-generator.ts
-- [ ] T008 [P] Implement rate limiter in src/server/services/rate-limiter.ts (sliding window, 10 creates/min, 5 retrieves/min)
-- [ ] T009 Implement entry store in src/server/services/entry-store.ts (in-memory Map with encryption)
-- [ ] T010 [P] Implement security middleware in src/server/middleware/security.ts (CSP, HSTS, X-Frame-Options)
-- [ ] T011 Create Hono app skeleton in src/server/index.ts with middleware registration
-- [ ] T012 [P] Create base HTML template in src/client/base.html (inline CSS, no external deps)
-- [ ] T013 Setup background cleanup interval for expired entries in src/server/services/entry-store.ts
+- [x] T006 Implement encryption service in src/server/services/crypto.ts (AES-256-GCM encrypt/decrypt)
+- [x] T007 [P] Implement 6-digit code generator in src/server/services/code-generator.ts
+- [x] T008 [P] Implement rate limiter in src/server/services/rate-limiter.ts (sliding window, 10 creates/min, 5 retrieves/min)
+- [x] T009 Implement entry store in src/server/services/entry-store.ts (in-memory Map with encryption)
+- [x] T010 [P] Implement security middleware in src/server/middleware/security.ts (CSP, HSTS, X-Frame-Options)
+- [x] T011 Create Hono app skeleton in src/server/index.ts with middleware registration
+- [x] T012 [P] Create base HTML template in src/client/styles.css (inline CSS, no external deps)
+- [x] T013 Setup background cleanup interval for expired entries in src/server/services/entry-store.ts
 
 **Checkpoint**: Foundation ready - user story implementation can now begin
 
@@ -54,12 +54,12 @@
 
 ### Implementation for User Story 1
 
-- [ ] T014 [US1] Implement POST /api/entries endpoint in src/server/routes/api.ts (validate content, generate code, encrypt, store, return response)
-- [ ] T015 [US1] Implement QR code generation in POST /api/entries response (qrcode library, data URL)
-- [ ] T016 [US1] Create mobile sender page HTML in src/client/send.html (text input, generate button, mobile-optimized)
-- [ ] T017 [US1] Implement sender page JavaScript: form submission, display code prominently, show QR code
-- [ ] T018 [US1] Implement countdown timer display showing remaining validity time
-- [ ] T019 [US1] Implement GET /send page route in src/server/routes/pages.ts
+- [x] T014 [US1] Implement POST /api/entries endpoint in src/server/routes/api.ts (validate content, generate code, encrypt, store, return response)
+- [x] T015 [US1] Implement QR code generation in POST /api/entries response (qrcode library, data URL)
+- [x] T016 [US1] Create mobile sender page HTML in src/server/routes/pages.ts (text input, generate button, mobile-optimized)
+- [x] T017 [US1] Implement sender page JavaScript: form submission, display code prominently, show QR code
+- [x] T018 [US1] Implement countdown timer display showing remaining validity time
+- [x] T019 [US1] Implement GET /send page route in src/server/routes/pages.ts
 
 **Checkpoint**: User Story 1 complete - mobile text submission and code generation works independently
 
@@ -73,12 +73,12 @@
 
 ### Implementation for User Story 2
 
-- [ ] T020 [US2] Implement GET /api/entries/:code endpoint in src/server/routes/api.ts (validate code, decrypt, delete, return content)
-- [ ] T021 [US2] Create desktop receiver page HTML in src/client/receive.html (code input field, submit button)
-- [ ] T022 [US2] Implement receiver page JavaScript: form submission, display retrieved text
-- [ ] T023 [US2] Implement "Copy to Clipboard" button with visual confirmation feedback
-- [ ] T024 [US2] Handle error states (invalid format, code not found) with user-friendly messages
-- [ ] T025 [US2] Implement GET / (root) page route in src/server/routes/pages.ts
+- [x] T020 [US2] Implement GET /api/entries/:code endpoint in src/server/routes/api.ts (validate code, decrypt, delete, return content)
+- [x] T021 [US2] Create desktop receiver page HTML in src/server/routes/pages.ts (code input field, submit button)
+- [x] T022 [US2] Implement receiver page JavaScript: form submission, display retrieved text
+- [x] T023 [US2] Implement "Copy to Clipboard" button with visual confirmation feedback
+- [x] T024 [US2] Handle error states (invalid format, code not found) with user-friendly messages
+- [x] T025 [US2] Implement GET / (root) page route in src/server/routes/pages.ts
 
 **Checkpoint**: User Story 2 complete - desktop code entry and text retrieval works independently
 
@@ -92,10 +92,10 @@
 
 ### Implementation for User Story 3
 
-- [ ] T026 [US3] Verify one-time access: entry deletion in GET /api/entries/:code after successful retrieval
-- [ ] T027 [US3] Implement TTL check in GET /api/entries/:code (delete expired, return generic error)
-- [ ] T028 [US3] Verify background cleanup removes expired entries in entry-store.ts
-- [ ] T029 [US3] Ensure generic error message for both "not found" and "expired" cases (no information leakage)
+- [x] T026 [US3] Verify one-time access: entry deletion in GET /api/entries/:code after successful retrieval
+- [x] T027 [US3] Implement TTL check in GET /api/entries/:code (delete expired, return generic error)
+- [x] T028 [US3] Verify background cleanup removes expired entries in entry-store.ts
+- [x] T029 [US3] Ensure generic error message for both "not found" and "expired" cases (no information leakage)
 
 **Checkpoint**: User Story 3 complete - security guarantees verified
 
@@ -109,10 +109,10 @@
 
 ### Implementation for User Story 4
 
-- [ ] T030 [US4] Implement GET /:code route in src/server/routes/pages.ts (6-digit pattern match)
-- [ ] T031 [US4] Render content directly on page when accessed via direct URL
-- [ ] T032 [US4] Ensure direct URL path works with QR code (retrievalUrl in response)
-- [ ] T033 [US4] Handle invalid/expired codes on direct access with appropriate error page
+- [x] T030 [US4] Implement GET /:code route in src/server/routes/pages.ts (6-digit pattern match)
+- [x] T031 [US4] Render content directly on page when accessed via direct URL
+- [x] T032 [US4] Ensure direct URL path works with QR code (retrievalUrl in response)
+- [x] T033 [US4] Handle invalid/expired codes on direct access with appropriate error page
 
 **Checkpoint**: User Story 4 complete - direct link and QR code access works
 
@@ -122,16 +122,16 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T034 [P] Add rate limiting to all API endpoints using rate-limiter.ts
-- [ ] T035 [P] Verify no PII in any logs (content, codes, IPs not logged)
-- [ ] T036 Add "Send Another" button on sender page after successful generation
-- [ ] T037 Add "Enter Another Code" link on receiver page after successful retrieval
-- [ ] T038 [P] Validate CSS works without external fonts (system font stack only)
-- [ ] T039 [P] Test page load performance on slow connection (3G simulation)
-- [ ] T040 Create build script in package.json (TypeScript compilation)
-- [ ] T041 [P] Create start script in package.json (run compiled server)
-- [ ] T042 [P] Add environment variable handling (PORT, BASE_URL, NODE_ENV) in src/server/config.ts
-- [ ] T043 Run quickstart.md validation (manual test of documented workflows)
+- [x] T034 [P] Add rate limiting to all API endpoints using rate-limiter.ts
+- [x] T035 [P] Verify no PII in any logs (content, codes, IPs not logged)
+- [x] T036 Add "Send Another" button on sender page after successful generation
+- [x] T037 Add "Enter Another Code" link on receiver page after successful retrieval
+- [x] T038 [P] Validate CSS works without external fonts (system font stack only)
+- [x] T039 [P] Test page load performance on slow connection (3G simulation)
+- [x] T040 Create build script in package.json (TypeScript compilation)
+- [x] T041 [P] Create start script in package.json (run compiled server)
+- [x] T042 [P] Add environment variable handling (PORT, BASE_URL, NODE_ENV) in src/server/config.ts
+- [x] T043 Run quickstart.md validation (manual test of documented workflows)
 
 ---
 

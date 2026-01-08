@@ -1,0 +1,35 @@
+{
+  "name": "text-portal",
+  "version": "1.0.0",
+  "description": "Secure ephemeral text sharing for healthcare - Text-to-Link Bridge",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server/index.ts",
+    "build": "tsc",
+    "start": "node dist/server/index.js",
+    "test": "vitest",
+    "test:run": "vitest run"
+  },
+  "keywords": [
+    "text-portal",
+    "secure-sharing",
+    "ephemeral",
+    "healthcare"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@hono/node-server": "^1.19.7",
+    "hono": "^4.0.0",
+    "qrcode": "^1.5.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/qrcode": "^1.5.5",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  }
+}

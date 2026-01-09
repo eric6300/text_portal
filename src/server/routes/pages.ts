@@ -1,17 +1,29 @@
 import { Hono } from 'hono';
 import { html } from 'hono/html';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Load CSS once at startup
+// Try multiple paths to handle both dev (src/) and prod (dist/) environments
 let inlineCSS: string;
-try {
-  inlineCSS = readFileSync(join(__dirname, '../../client/styles.css'), 'utf-8');
-} catch {
-  inlineCSS = '/* CSS not found */';
+const cssPaths = [
+  join(__dirname, '../../client/styles.css'),      // dev: src/server/routes -> src/client
+  join(__dirname, '../../../src/client/styles.css'), // prod: dist/server/routes -> src/client
+];
+
+inlineCSS = '/* CSS not found */';
+for (const cssPath of cssPaths) {
+  if (existsSync(cssPath)) {
+    try {
+      inlineCSS = readFileSync(cssPath, 'utf-8');
+      break;
+    } catch {
+      // Continue to next path
+    }
+  }
 }
 
 export const pageRoutes = new Hono();

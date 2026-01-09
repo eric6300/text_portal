@@ -1,0 +1,201 @@
+openapi: 3.1.0
+info:
+  title: Text Portal API
+  description: |
+    Secure ephemeral text sharing API for Text-to-Link Bridge.
+
+    All content is encrypted at rest and automatically deleted after first access
+    or 10-minute expiration, whichever comes first.
+  version: 1.0.0
+  contact:
+    name: Text Portal
+  license:
+    name: MIT
+
+servers:
+  - url: /api
+    description: API endpoints (relative to base URL)
+
+paths:
+  /entries:
+    post:
+      operationId: createEntry
+      summary: Create a new text entry
+      description: |
+        Encrypts and stores text content, returning a 6-digit access code.
+        The code expires after 10 minutes or first successful retrieval.
+      tags:
+        - Entries
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEntryRequest'
+            example:
+              content: "Patient presents with mild fever and cough. Recommend rest and fluids."
+      responses:
+        '201':
+          description: Entry created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateEntryResponse'
+              example:
+                code: "482916"
+                expiresAt: 1736380800000
+                expiresIn: 600
+                qrDataUrl: "data:image/png;base64,iVBORw0KGgo..."
+                retrievalUrl: "https://example.com/482916"
+        '400':
+          description: Invalid request (empty content, too long, invalid encoding)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Content exceeds maximum length of 50000 characters"
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Too many requests. Please wait before trying again."
+        '503':
+          description: Service unavailable (code generation failed due to high load)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Service temporarily unavailable. Please try again."
+
+  /entries/{code}:
+    get:
+      operationId: getEntry
+      summary: Retrieve and delete a text entry
+      description: |
+        Retrieves the decrypted text content for the given code.
+
+        **IMPORTANT**: This is a one-time operation. The entry is permanently
+        deleted immediately after successful retrieval. Subsequent requests
+        with the same code will return 404.
+      tags:
+        - Entries
+      parameters:
+        - name: code
+          in: path
+          required: true
+          description: 6-digit numeric access code
+          schema:
+            type: string
+            pattern: '^[0-9]{6}$'
+          example: "482916"
+      responses:
+        '200':
+          description: Entry retrieved successfully (entry is now deleted)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetEntryResponse'
+              example:
+                content: "Patient presents with mild fever and cough. Recommend rest and fluids."
+        '400':
+          description: Invalid code format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Invalid code format"
+        '404':
+          description: Code not found (never existed, already retrieved, or expired)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Code not found"
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Too many requests. Please wait before trying again."
+
+components:
+  schemas:
+    CreateEntryRequest:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          description: Text content to store (will be encrypted)
+          minLength: 1
+          maxLength: 50000
+          example: "Patient presents with mild fever and cough."
+
+    CreateEntryResponse:
+      type: object
+      required:
+        - code
+        - expiresAt
+        - expiresIn
+        - qrDataUrl
+        - retrievalUrl
+      properties:
+        code:
+          type: string
+          description: 6-digit numeric access code
+          pattern: '^[0-9]{6}$'
+          example: "482916"
+        expiresAt:
+          type: integer
+          format: int64
+          description: Unix timestamp (milliseconds) when entry expires
+          example: 1736380800000
+        expiresIn:
+          type: integer
+          description: Seconds until expiration
+          example: 600
+        qrDataUrl:
+          type: string
+          description: QR code as base64 data URL (PNG image)
+          example: "data:image/png;base64,iVBORw0KGgo..."
+        retrievalUrl:
+          type: string
+          format: uri
+          description: Full URL for direct access
+          example: "https://example.com/482916"
+
+    GetEntryResponse:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          description: Decrypted text content
+          example: "Patient presents with mild fever and cough."
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: "Code not found"
+
+tags:
+  - name: Entries
+    description: Text entry creation and retrieval
+
+security: []  # No authentication required (by design)

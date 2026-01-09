@@ -101,24 +101,26 @@ input[type="text"]:focus {
 
 /* Fancy textarea for send page */
 .textarea-fancy {
-  min-height: 40vh;
-  max-height: 60vh;
+  display: block;
+  width: 100%;
+  min-height: 250px;
   resize: vertical;
-  background: linear-gradient(to bottom, var(--color-input-bg) 0%, #fafbfc 100%);
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-lg), inset 0 2px 4px rgba(0, 0, 0, 0.02);
+  background-color: var(--color-input-bg);
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
   line-height: 1.6;
-  font-size: 1.05rem;
+  font-size: 1rem;
+  padding: 1rem;
 }
 
 .textarea-fancy:focus {
-  background: var(--color-input-bg);
-  box-shadow: var(--shadow-focus), var(--shadow-lg);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-focus);
 }
 
 .textarea-fancy::placeholder {
   color: #94a3b8;
-  font-style: italic;
 }
 
 /* Character counter */
@@ -320,26 +322,7 @@ footer {
   }
 
   .textarea-fancy {
-    min-height: 350px;
-    max-height: 500px;
-    font-size: 1.1rem;
-  }
-}
-
-/* Medium screens (tablet) */
-@media (max-width: 768px) {
-  .container {
-    max-width: 100%;
-    padding: 0 1rem;
-  }
-
-  .textarea-fancy {
-    min-height: 35vh;
-    max-height: 50vh;
-  }
-
-  header {
-    margin-bottom: 1.5rem;
+    min-height: 300px;
   }
 }
 
@@ -350,23 +333,15 @@ footer {
   }
 
   .container {
-    padding: 0 0.5rem;
+    padding: 0 0.75rem;
   }
 
   h1 {
     font-size: 1.5rem;
   }
 
-  .subtitle {
-    font-size: 0.8rem;
-  }
-
   .textarea-fancy {
-    min-height: 30vh;
-    max-height: 45vh;
-    padding: 0.875rem 1rem;
-    font-size: 1rem;
-    border-radius: var(--border-radius);
+    min-height: 200px;
   }
 
   .code-display {
@@ -376,32 +351,5 @@ footer {
 
   .btn {
     padding: 1rem;
-  }
-
-  .result {
-    padding: 1.5rem 1rem;
-  }
-
-  .qr-code {
-    max-width: 160px;
-  }
-
-  footer {
-    font-size: 0.7rem;
-  }
-}
-
-/* Extra small screens */
-@media (max-width: 360px) {
-  .textarea-fancy {
-    min-height: 25vh;
-  }
-
-  .code-display {
-    font-size: 2rem;
-  }
-
-  h1 {
-    font-size: 1.3rem;
   }
 }

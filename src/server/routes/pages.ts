@@ -51,7 +51,8 @@ pageRoutes.get('/send', (c) => {
     <div id="input-form">
       <div class="form-group">
         <label for="content">Enter your text</label>
-        <textarea id="content" placeholder="Paste or type your text here..." maxlength="50000"></textarea>
+        <textarea id="content" class="textarea-fancy" placeholder="Paste or type your text here..." maxlength="50000"></textarea>
+        <div id="char-counter" class="char-counter">0 / 50,000</div>
       </div>
       <button type="button" id="generate-btn" class="btn btn-primary">Generate Code</button>
       <div id="error-message" class="message message-error hidden"></div>
@@ -89,9 +90,29 @@ pageRoutes.get('/send', (c) => {
       const qrCode = document.getElementById('qr-code');
       const sendAnotherBtn = document.getElementById('send-another-btn');
       const timer = document.getElementById('timer');
+      const charCounter = document.getElementById('char-counter');
 
+      const MAX_CHARS = 50000;
       let countdownInterval = null;
       let expiresAt = null;
+
+      function updateCharCounter() {
+        const len = content.value.length;
+        const formatted = len.toLocaleString() + ' / ' + MAX_CHARS.toLocaleString();
+        charCounter.textContent = formatted;
+
+        charCounter.classList.remove('warning', 'danger');
+        if (len > 0) {
+          charCounter.classList.add('visible');
+          if (len > MAX_CHARS * 0.9) {
+            charCounter.classList.add('danger');
+          } else if (len > MAX_CHARS * 0.75) {
+            charCounter.classList.add('warning');
+          }
+        } else {
+          charCounter.classList.remove('visible');
+        }
+      }
 
       function showError(message) {
         errorMessage.textContent = message;
@@ -193,6 +214,7 @@ pageRoutes.get('/send', (c) => {
 
       generateBtn.addEventListener('click', generateCode);
       sendAnotherBtn.addEventListener('click', showForm);
+      content.addEventListener('input', updateCharCounter);
     })();
   </script>
 </body>

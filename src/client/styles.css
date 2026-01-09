@@ -43,8 +43,9 @@ body {
 
 .container {
   width: 100%;
-  max-width: 600px;
+  max-width: 720px;
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
 header {
@@ -100,7 +101,8 @@ input[type="text"]:focus {
 
 /* Fancy textarea for send page */
 .textarea-fancy {
-  min-height: 200px;
+  min-height: 40vh;
+  max-height: 60vh;
   resize: vertical;
   background: linear-gradient(to bottom, var(--color-input-bg) 0%, #fafbfc 100%);
   border-radius: var(--border-radius-lg);
@@ -310,20 +312,96 @@ footer {
 }
 
 /* Responsive */
+
+/* Large screens (desktop) */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 800px;
+  }
+
+  .textarea-fancy {
+    min-height: 350px;
+    max-height: 500px;
+    font-size: 1.1rem;
+  }
+}
+
+/* Medium screens (tablet) */
+@media (max-width: 768px) {
+  .container {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+
+  .textarea-fancy {
+    min-height: 35vh;
+    max-height: 50vh;
+  }
+
+  header {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Small screens (mobile) */
 @media (max-width: 480px) {
   body {
     padding: 0.5rem;
+  }
+
+  .container {
+    padding: 0 0.5rem;
   }
 
   h1 {
     font-size: 1.5rem;
   }
 
+  .subtitle {
+    font-size: 0.8rem;
+  }
+
+  .textarea-fancy {
+    min-height: 30vh;
+    max-height: 45vh;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    border-radius: var(--border-radius);
+  }
+
   .code-display {
     font-size: 2.5rem;
+    letter-spacing: 0.15rem;
   }
 
   .btn {
     padding: 1rem;
+  }
+
+  .result {
+    padding: 1.5rem 1rem;
+  }
+
+  .qr-code {
+    max-width: 160px;
+  }
+
+  footer {
+    font-size: 0.7rem;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 360px) {
+  .textarea-fancy {
+    min-height: 25vh;
+  }
+
+  .code-display {
+    font-size: 2rem;
+  }
+
+  h1 {
+    font-size: 1.3rem;
   }
 }
